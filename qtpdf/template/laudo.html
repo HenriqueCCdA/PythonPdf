@@ -1,0 +1,52 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Laudo Dosimagem</title>
+    <style>
+        footer, #top {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="top">
+        <img src="./template/img/topo.png" width="400">
+    </div>
+    <div>
+        <h2>1) Dados do Relatório</h2>
+        <p>Nome do pacciente: Nome</p>
+        <p>Isotopo: I-131</p>
+    </div>
+    <div>
+        <h2>2) Histograma dose volume</h2>
+        <div id="top">
+            <img src="./data/dvh.png" width="400">
+        </div>
+    </div>
+    <div>
+        <h2>3) Tabela de dose medias por tecidos</h2>
+        <br>
+        <table>
+            <thead>
+                <tr>
+                    <th style="text-align:left" scope="col">Tecido</th>
+                    <th style="text-align:right" width=100 scope="col">Dose (Gy)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+                <tr>
+                    <td scope="row">Whole Body</td>
+                    <td style="text-align:right">0.63</td>
+                </tr>
+                <tr>
+                    <td scope="row">Lungs</td>
+                    <td style="text-align:right">1.92</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+     <footer>
+        <img src="./template/img/footer.png" width="500">
+    </footer>
+</body>
+</html>
