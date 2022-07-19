@@ -1,30 +1,41 @@
 import sys
+
 from PyQt5.QtPrintSupport import QPrinter
 from PyQt5.QtGui import QTextDocument
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton
+from PyQt5.QtWidgets import (QApplication,
+                             QWidget,
+                             QPushButton,
+                             QVBoxLayout,
+                             QHBoxLayout,
+                             QLineEdit,
+                             QMessageBox,
+                             QLabel)
 from PyQt5.QtCore import QSizeF
+from jinja2 import FileSystemLoader, Environment
 
 
+def jinja2_context_processor(template_dir, template_name):
+    templateLoader = FileSystemLoader(searchpath="./template")
+    templateEnv = Environment(loader=templateLoader)
+    return templateEnv.get_template("laudo.html")
 
-def read_html_template(path='template/laudo.html'):
-    with open(path, 'r') as f:
-        html_template = f.read()
 
-    return html_template
+class Jinja2ContextProcessor:
+    def __init__(self, template_dir, template_name):
+        self.searchpath = template_dir
+        self.template_name = template_name
+        self._setup()
 
-def read_table_from(path='data/dvh.txt'):
-    with open(path, 'r') as f:
-        lines = f.readlines()
+    def _setup(self):
+        templateLoader = FileSystemLoader(searchpath=self.searchpath)
+        templateEnv = Environment(loader=templateLoader)
+        self.template = templateEnv.get_template(self.template_name)
 
-    tissues = {}
-    for l in lines:
-        name, v = l.split()
-        tissues[name] = v
-    return tissues
+    def render(self, **kargs):
+        return self.template.render(kargs)
 
 
 def print_pdf(pdf_path):
-    pdf_path = './teste.pdf'
 
     printer = QPrinter(QPrinter.PrinterResolution)
     printer.setOutputFormat(QPrinter.PdfFormat)
@@ -39,33 +50,70 @@ def print_pdf(pdf_path):
 
     doc = QTextDocument()
 
-    html = read_html_template()
-    tissues = read_table_from()
+    tabela = {
+        'Tecido1': {'dose':  3.1, 'mass': 1.8},
+        'Tecido2': {'dose':  4.1, 'mass': 1.0},
+        'Tecido3': {'dose': 10.1, 'mass': 5.0}
+    }
 
-    print(tissues, html)
+    data = {'paciente': 'Paciente nome',
+            'isotopo': 'I-131',
+            'tabela': tabela,
+            'dvh': './data/dvh.png'}
+    template = Jinja2ContextProcessor(template_dir='./template', template_name='report.html')
+    html = template.render(**data)
 
     doc.setHtml(html)
-    doc.setPageSize(QSizeF(printer.pageRect().size()))  # hide the page number
+    doc.setPageSize(QSizeF(printer.pageRect().size()))
     doc.print(printer)
 
 
 class Window(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Gera Pdf')
-        self.setGeometry(50, 50, 350, 350)
+        self.setWindowTitle('Gerar Pdf')
+        self.setGeometry(50, 50, 400, 50)
         self.UI()
 
     def UI(self):
 
-        btn = QPushButton('Gera pdf', self)
+        vbox = QVBoxLayout()
+        hbox_top = QHBoxLayout()
+        hbox_base = QHBoxLayout()
 
+        vbox.addStretch()
+        vbox.addLayout(hbox_top)
+        vbox.addLayout(hbox_base)
+        vbox.addStretch()
+
+        label = QLabel('nome do arquivo pdf:')
+        self.input = QLineEdit()
+        hbox_top.addStretch()
+        hbox_top.addWidget(label)
+        hbox_top.addWidget(self.input)
+        hbox_top.addStretch()
+
+        btn = QPushButton('Gerar pdf', self)
         btn.clicked.connect(self.on_btn)
+
+        hbox_base.addStretch()
+        hbox_base.addWidget(btn)
+        hbox_base.addStretch()
+
+        self.setLayout(vbox)
 
         self.show()
 
     def on_btn(self):
-        print_pdf(pdf_path='teste.pf')
+        name = self.input.text().strip()
+        if name.endswith('.pdf'):
+            print_pdf(pdf_path=name)
+            QMessageBox.information(self, 'Arquivo gerado', f'Arquivo {name} gerado.')
+        elif not name:
+            QMessageBox.warning(self, 'Nome invalido', 'Nome do arquivo vazio.')
+        else:
+            QMessageBox.warning(self, 'Nome invalido', 'O arquivo tem que termina com .pdf.')
+
 
 
 if __name__ == '__main__':

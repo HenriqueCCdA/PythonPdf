@@ -14,38 +14,39 @@
     </div>
     <div>
         <h2>1) Dados do Relatório</h2>
-        <p>Nome do pacciente: Nome</p>
-        <p>Isotopo: I-131</p>
+        <p>Nome do paciente: {{paciente}}</p>
+        <p>Isotopo: {{isotopo}}</p>
     </div>
     <div>
         <h2>2) Histograma dose volume</h2>
         <div id="top">
-            <img src="./data/dvh.png" width="400">
+            <img src="{{dvh}}" width="400">
         </div>
     </div>
     <div>
         <h2>3) Tabela de dose medias por tecidos</h2>
         <br>
-        <table>
+        <table style="text-align:center">
             <thead>
                 <tr>
                     <th style="text-align:left" scope="col">Tecido</th>
                     <th style="text-align:right" width=100 scope="col">Dose (Gy)</th>
+                    <th style="text-align:right" width=100 scope="col">Massa (Kg)</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+                {% for tecido, valores in tabela.items() %}
                 <tr>
-                    <td scope="row">Whole Body</td>
-                    <td style="text-align:right">0.63</td>
+                    <td scope="row">{{tecido}}</td>
+                    <td style="text-align:right">{{valores.dose}}</td>
+                    <td style="text-align:right">{{valores.mass}}</td>
                 </tr>
-                <tr>
-                    <td scope="row">Lungs</td>
-                    <td style="text-align:right">1.92</td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
-     <footer>
+    <br>
+    <footer>
         <img src="./template/img/footer.png" width="500">
     </footer>
 </body>
