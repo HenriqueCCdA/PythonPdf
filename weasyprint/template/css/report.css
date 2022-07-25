@@ -32,6 +32,16 @@ table#info{
     margin-right: auto;
 }
 
+table#info th{
+    text-align:center;
+    width: 180px;
+}
+
+table#info td{
+    text-align:center;
+    width: 100px;
+}
+
 table#medias{
     margin-left: auto;
     margin-right: auto;
@@ -40,12 +50,13 @@ table#medias{
     border-radius:6px;
 }
 
-table#medias, th{
+table#medias th{
     text-align:center;
     width: 150px;
 }
 
-table#medias td, th {
+table#medias td, table#medias th {
+    text-align:center;
     border-left:solid black 1px;
     border-top:solid black 1px;
 }
@@ -55,6 +66,6 @@ table#medias th{
     border-top: none;
 }
 
-table#medias td:first-child, th:first-child {
+table#medias td:first-child, table#medias th:first-child {
      border-left: none;
 }

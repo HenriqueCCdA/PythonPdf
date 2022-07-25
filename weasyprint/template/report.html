@@ -10,14 +10,20 @@
     <div>
         <h3>1) Dados do Relatório</h3>
         <table id="info">
+        <head>
+            <tr>
+                <th scope="col">Paciente Id</th>
+                <th scope="col">Radionuclídeo</th>
+                <th scope="col">Clínica Solicitante</th>
+                <th scope="col">Data</th>
+            </tr>
+        </thead>
             <tbody>
                 <tr>
-                    <td>Nome do paciente: {{paciente}}</td>
-                    <td>Isotopo {{isotopo}}</td>
-                </tr>
-                <tr>
-                    <td>Clínica Solicitante: {{clinica}}</td>
-                    <td>Data: {{data}}</td>
+                    <td>{{paciente}}</td>
+                    <td>{{isotopo}}</td>
+                    <td>{{clinica}}</td>
+                    <td>{{data}}</td>
                 </tr>
             </tbody>
         </table>
