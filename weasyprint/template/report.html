@@ -1,0 +1,58 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Laudo Dosimagem</title>
+</head>
+<body>
+    <header>
+        <img src="img/topo.png">
+    </header>
+    <div>
+        <h3>1) Dados do Relatório</h3>
+        <table id="info">
+            <tbody>
+                <tr>
+                    <td>Nome do paciente: {{paciente}}</td>
+                    <td>Isotopo {{isotopo}}</td>
+                </tr>
+                <tr>
+                    <td>Clínica Solicitante: {{clinica}}</td>
+                    <td>Data: {{data}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h3>2) Histograma dose volume</h3>
+        <div id="dvh">
+            <img src="{{dvh}}">
+        </div>
+    </div>
+    <div>
+        <h3>3) Tabela de dose medias por tecidos</h3>
+        <br>
+        <table id="medias">
+            <thead>
+                <tr>
+                    <th scope="col">Tecido</th>
+                    <th scope="col">Dose (Gy)</th>
+                    <th scope="col">Massa (Kg)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tecido, valores in tabela.items() %}
+                <tr>
+                    <td scope="row">{{tecido}}</td>
+                    <td class="col">{{valores.dose}}</td>
+                    <td class="col">{{valores.mass}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <footer>
+        <img src="img/footer.png">
+    </footer>
+</body>
+</html>

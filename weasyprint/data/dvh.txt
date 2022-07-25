@@ -1,0 +1,10 @@
+Background           0.00
+Whole_Body           0.63
+Lungs                1.92
+Liver                3.05
+Bones                0.45
+Air                  0.81
+LKidney              4.78
+RKidney              4.06
+Spleen               6.77
+Tumour1              14.65
