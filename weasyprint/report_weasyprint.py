@@ -5,7 +5,7 @@ from weasyprint import CSS, HTML
 from jinja2 import FileSystemLoader, Environment
 
 
-FORMAT_DATE = '%d/%m%/Y'
+FORMAT_DATE = '%d/%m/%Y'
 
 class Jinja2ContextProcessor:
     def __init__(self, template_dir, template_name):
